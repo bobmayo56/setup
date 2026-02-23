@@ -2,8 +2,6 @@
 """
 make-codecard -- generate a printable grid of random characters.
 
-FOOTNOTE = "Prints best in Open Office Andale Mono font, 7 pt."
-
 Layout: ROWS rows x COLS columns.
   - Column 0 is COL0_WIDTH characters wide.
   - All other columns are COLN_WIDTH characters wide.
