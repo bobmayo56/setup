@@ -2,7 +2,7 @@
 """
 make-codecard -- generate a printable grid of random characters.
 
-Prints best in Open Office Andale Mono font, 6 pt.
+FOOTNOTE = "Prints best in Open Office Andale Mono font, 7 pt."
 
 Layout: ROWS rows x COLS columns.
   - Column 0 is COL0_WIDTH characters wide.
@@ -19,8 +19,8 @@ import secrets
 # Grid dimensions
 # ---------------------------------------------------------------------------
 
-ROWS = 15       # number of rows
-COLS = 11       # number of columns
+ROWS = 14       # number of rows
+COLS = 10       # number of columns
 
 
 # ---------------------------------------------------------------------------
@@ -59,6 +59,8 @@ PASSWORD_CHARS = ALPHANUMERIC + "!@#$%^&*()-_=+[]{}|;:,.<>?"
 # ---------------------------------------------------------------------------
 
 FILL_CHARSET = PASSWORD_CHARS
+
+FOOTNOTE = "Prints best in Open Office Andale Mono font, 7 pt."
 
 # Percentage of body cells that will be filled with digits only.
 NUMERIC_CELL_PCT = 15
@@ -112,6 +114,8 @@ def print_card(card):
     """Print the card to stdout, separating each column with a single space."""
     for row in card:
         print(" ".join(row))
+    print("")
+    print(FOOTNOTE)
 
 
 # ---------------------------------------------------------------------------
