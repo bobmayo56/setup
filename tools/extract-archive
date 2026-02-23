@@ -20,5 +20,5 @@ fi
 SEVENZIP_PROGRAM="${SEVENZIP_PROGRAM:-7zz}"
 
 # -p with no value attached prompts interactively for a password
-"$SEVENZIP_PROGRAM" x -p "$ARCHIVE" && echo "Extracted: $ARCHIVE"
+"$SEVENZIP_PROGRAM" x "$ARCHIVE" && echo "Extracted: $ARCHIVE"
 
