@@ -1,2 +1,0 @@
-# stdhome
-Standard Home
