@@ -1,10 +1,8 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # extract-archive
 
 # part of a pair: make-archive and extract-archive
-
-#!/usr/bin/env bash
 
 if [ $# -ne 1 ]; then
     echo "Usage: extract-archive <archive.7z>"
@@ -19,7 +17,8 @@ if [ ! -f "$ARCHIVE" ]; then
     exit 1
 fi
 
-7zz x "$ARCHIVE"
+SEVENZIP_PROGRAM="${SEVENZIP_PROGRAM:-7zz}"
 
-echo "Extracted: $ARCHIVE"
+# -p with no value attached prompts interactively for a password
+"$SEVENZIP_PROGRAM" x -p "$ARCHIVE" && echo "Extracted: $ARCHIVE"
 

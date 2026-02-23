@@ -1,10 +1,8 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # make-archive
 
 # part of a pair: make-archive and extract-archive 
-
-#!/usr/bin/env bash
 
 if [ $# -ne 2 ]; then
     echo "Usage: make-archive <folder> <archive-name>"
@@ -20,7 +18,9 @@ if [ ! -d "$FOLDER" ]; then
     exit 1
 fi
 
-7zz a -mhe=on -p "${ARCHIVE}.7z" "$FOLDER"
+SEVENZIP_PROGRAM="${SEVENZIP_PROGRAM:-7zz}"
 
-echo "Created: ${ARCHIVE}.7z"
+# -p with no value attached prompts interactively for a password
+# -mhe=on encrypts the archive headers as well as the contents
+"$SEVENZIP_PROGRAM" a -mhe=on -p "${ARCHIVE}.7z" "$FOLDER" && echo "Created: ${ARCHIVE}.7z"
 
