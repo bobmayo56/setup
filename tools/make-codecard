@@ -2,6 +2,8 @@
 """
 make-codecard -- generate a printable grid of random characters.
 
+Prints best in Open Office Andale Mono font, 6 pt.
+
 Layout: ROWS rows x COLS columns.
   - Column 0 is COL0_WIDTH characters wide.
   - All other columns are COLN_WIDTH characters wide.
@@ -17,7 +19,7 @@ import secrets
 # Grid dimensions
 # ---------------------------------------------------------------------------
 
-ROWS = 14       # number of rows
+ROWS = 17       # number of rows
 COLS = 12       # number of columns
 
 
@@ -58,9 +60,8 @@ PASSWORD_CHARS = ALPHANUMERIC + "!@#$%^&*()-_=+[]{}|;:,.<>?"
 
 FILL_CHARSET = PASSWORD_CHARS
 
-# Odds that any given body cell will be filled with digits only.
-# 10 means a 1-in-10 (10%) chance.
-NUMERIC_CELL_ODDS = 10
+# Percentage of body cells that will be filled with digits only.
+NUMERIC_CELL_PCT = 15
 
 
 # ---------------------------------------------------------------------------
@@ -99,8 +100,8 @@ def make_card(rows, cols, col0_width, coln_width, charset):
                 # Label column: row numbers starting at 1, centered.
                 cell = str(r).center(col0_width)
             else:
-                # Body: mostly fill charset, but ~10% of cells are digits only.
-                cell_charset = DIGITS if secrets.randbelow(NUMERIC_CELL_ODDS) == 0 else charset
+                # Body: mostly fill charset, but ~15% of cells are digits only.
+                cell_charset = DIGITS if secrets.randbelow(100) < NUMERIC_CELL_PCT else charset
                 cell = make_cell(coln_width, cell_charset)
             row.append(cell)
         card.append(row)
