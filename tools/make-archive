@@ -20,7 +20,16 @@ fi
 
 SEVENZIP_PROGRAM="${SEVENZIP_PROGRAM:-7zz}"
 
-# -p with no value attached prompts interactively for a password
+read -r -s -p "Password: " PASSWORD
+echo
+read -r -s -p "Confirm password: " PASSWORD2
+echo
+
+if [ "$PASSWORD" != "$PASSWORD2" ]; then
+    echo "Error: passwords do not match"
+    exit 1
+fi
+
 # -mhe=on encrypts the archive headers as well as the contents
-"$SEVENZIP_PROGRAM" a -mhe=on -p "${ARCHIVE}.7z" "$FOLDER" && echo "Created: ${ARCHIVE}.7z"
+"$SEVENZIP_PROGRAM" a -mhe=on -p"$PASSWORD" "${ARCHIVE}.7z" "$FOLDER" && echo "Created: ${ARCHIVE}.7z"
 
