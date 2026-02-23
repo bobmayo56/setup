@@ -19,8 +19,8 @@ import secrets
 # Grid dimensions
 # ---------------------------------------------------------------------------
 
-ROWS = 17       # number of rows
-COLS = 12       # number of columns
+ROWS = 15       # number of rows
+COLS = 11       # number of columns
 
 
 # ---------------------------------------------------------------------------
