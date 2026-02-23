@@ -1,3 +1,122 @@
 #!/usr/bin/env python3
+"""
+make-codecard -- generate a printable grid of random characters.
 
-print("Hello, world! This is a skeleton script for make-codecard")
+Layout: ROWS rows x COLS columns.
+  - Column 0 is COL0_WIDTH characters wide.
+  - All other columns are COLN_WIDTH characters wide.
+  - Columns are separated by a single space.
+
+All characters are drawn from the system's cryptographically secure RNG.
+"""
+
+import secrets
+
+
+# ---------------------------------------------------------------------------
+# Grid dimensions
+# ---------------------------------------------------------------------------
+
+ROWS = 14       # number of rows
+COLS = 12       # number of columns
+
+
+# ---------------------------------------------------------------------------
+# Column widths
+# ---------------------------------------------------------------------------
+
+COL0_WIDTH = 2  # width of the first (label) column
+COLN_WIDTH = 4  # width of every other column
+
+
+# ---------------------------------------------------------------------------
+# Character sets
+# ---------------------------------------------------------------------------
+
+# Uppercase letters only (used for the card-identifier cell at top-left).
+UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+# Decimal digits only.
+DIGITS = "0123456789"
+
+# All alphanumeric characters: uppercase, lowercase, and digits.
+ALPHANUMERIC = (
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    "abcdefghijklmnopqrstuvwxyz"
+    "0123456789"
+)
+
+# Alphanumeric plus special characters commonly accepted in web passwords.
+# Excluded: space, quotes (' " `), backslash (\), and slash (/) which can
+# cause problems in URLs, HTML, or SQL contexts on some sites.
+PASSWORD_CHARS = ALPHANUMERIC + "!@#$%^&*()-_=+[]{}|;:,.<>?"
+
+
+# ---------------------------------------------------------------------------
+# The character set used to fill the card (change this to switch modes)
+# ---------------------------------------------------------------------------
+
+FILL_CHARSET = PASSWORD_CHARS
+
+# Odds that any given body cell will be filled with digits only.
+# 10 means a 1-in-10 (10%) chance.
+NUMERIC_CELL_ODDS = 10
+
+
+# ---------------------------------------------------------------------------
+# Core functions
+# ---------------------------------------------------------------------------
+
+def make_cell(width, charset):
+    """Return a string of `width` characters chosen at random from `charset`.
+
+    Uses secrets.choice(), which draws from the OS cryptographic RNG
+    (e.g. /dev/urandom on Unix), giving uniform selection over the charset.
+    """
+    return "".join(secrets.choice(charset) for _ in range(width))
+
+
+def make_card(rows, cols, col0_width, coln_width, charset):
+    """Build and return the card as a 2D list of cell strings.
+
+    Cell layout:
+      (0, 0)       -- random uppercase letter, left-justified in col0_width
+      (0, col>0)   -- column number (1-based), right-justified in coln_width
+      (row>0, 0)   -- row number (1-based), right-justified in col0_width
+      (row>0, col>0) -- random characters from charset, exactly coln_width wide
+    """
+    card = []
+    for r in range(rows):
+        row = []
+        for c in range(cols):
+            if r == 0 and c == 0:
+                # Top-left: random uppercase letters identify this card.
+                cell = make_cell(col0_width, UPPERCASE)
+            elif r == 0:
+                # Header row: column numbers starting at 1, centered.
+                cell = str(c).center(coln_width)
+            elif c == 0:
+                # Label column: row numbers starting at 1, centered.
+                cell = str(r).center(col0_width)
+            else:
+                # Body: mostly fill charset, but ~10% of cells are digits only.
+                cell_charset = DIGITS if secrets.randbelow(NUMERIC_CELL_ODDS) == 0 else charset
+                cell = make_cell(coln_width, cell_charset)
+            row.append(cell)
+        card.append(row)
+    return card
+
+
+def print_card(card):
+    """Print the card to stdout, separating each column with a single space."""
+    for row in card:
+        print(" ".join(row))
+
+
+# ---------------------------------------------------------------------------
+# Entry point
+# ---------------------------------------------------------------------------
+
+if __name__ == "__main__":
+    card = make_card(ROWS, COLS, COL0_WIDTH, COLN_WIDTH, FILL_CHARSET)
+    print_card(card)
