@@ -1,0 +1,64 @@
+#!/bin/bash
+
+HOST=`hostname`
+METRICS_KEY='e67eda22904f6ea8deeceafdad8d2288bc48674fbde8d5ed35667365b3b38346'
+METRICS_USER='techsupport@nlognlabs.com'
+METRICS_URL='https://metrics-api.librato.com/v1/metrics'
+METRICS_AUTH="${METRICS_USER}:${METRICS_KEY}"
+LOG=/tmp/internetmetrics$$log.txt
+
+
+time_url() {
+    URL="$1"
+    TM=`curl -s -m 10 -w '%{time_total}' ${URL} -o /dev/null`
+    CODE=$?
+    if [[ $? -eq 0 ]] 
+    then
+        echo $TM
+    else
+        echo ''
+    fi
+}
+
+post_value() {
+    METRIC="$1"
+    TIME="$2"
+    SOURCE="$3"
+    VAL="$4"
+    echo post_value ${METRIC} ${TIME} "${HOST}" "$VAL" >> $LOG
+    if [[ "$VAL" != "" ]] 
+    then
+        JSON="{\"gauges\":{\"${METRIC}\":{\"measure_time\":${TIME},\"value\":${VAL},\"source\":\"${HOST}\"}}}"
+        echo "$JSON" >> $LOG
+        echo "${JSON}" | curl -u ${METRICS_AUTH} -X POST -m 10 -H "Content-Type: application/json" -d @- ${METRICS_URL} -s 
+    fi
+}
+
+test_url() {
+    TIME="$1"
+    METRIC="$2"
+    URL="$3"
+    VAL=`time_url "$URL"`
+    echo $URL took time $VAL >> $LOG
+    post_value ${METRIC} ${TIME} "${HOST}" "$VAL"
+}
+
+echo Internet Metrics script started on $H at `date` >> $LOG
+
+NEXT=`date +%s`
+let NEXT=$NEXT/60
+let NEXT="$NEXT*60+24"
+
+while [[ 1 ]]
+do
+    test_url $NEXT bob_homenetwork_yahoo_com 'http://www.yahoo.com'
+    test_url $NEXT bob_homenetwork_google_com 'http://www.google.com'
+    test_url $NEXT bob_homenetwork_wisc_edu 'http://www.wisc.edu'
+    test_url $NEXT bob_homenetwork_nytimes_com 'http://www.nytimes.com'
+    let NOW=`date +%s`
+    let NEXT=$NEXT+60
+    let WAIT=$NEXT-$NOW
+    sleep $WAIT
+done
+
+echo Internet Metrics script finished on $H at `date` >> $LOG

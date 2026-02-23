@@ -1,0 +1,22 @@
+#!/usr/bin/python
+
+import os;
+import base64;
+import commands;
+
+def randstring94(n):
+    res = ''
+    while len(res) < n:
+        val = ' ';
+        while val <= ' ' or val > '~':
+            val = str(os.urandom(1))
+        res += val
+    return res
+
+lines = 28
+row = 0
+header = '0123456789abcdefghijklmnopqrstuvwxyz'
+print '@' + header[0:32] + ' #' + header[0:32]
+while row < 28:
+    print header[row] + randstring94(32) + ' ' + header[row] + randstring94(32)
+    row += 1

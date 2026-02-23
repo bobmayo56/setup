@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Identify the system type so scripts can adjust
+
+# See wikipedia
+#   uname -s outputs system kernel, ex: "Linux" or "Darwin"
+#   uname -o outputs OS distribution, ex: "GNU/Linix" (but doesn't work on OSX)
+
+uname -s

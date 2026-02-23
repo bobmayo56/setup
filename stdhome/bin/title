@@ -1,0 +1,4 @@
+#!/bin/bash
+
+TITLE="$*"
+echo -n -e "\033]0;${TITLE}\007"

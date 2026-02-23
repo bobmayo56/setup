@@ -1,0 +1,14 @@
+#!/usr/bin/python
+
+import random;
+
+for y in range (0, 10):
+    line = "";
+    for x in range (0, 10):
+        token = str(random.random());
+        line = line + token[2:4];
+        # line = line + "/" + str(x) + '/' + str(y) + '/' + token;
+        if (x < 9):
+            line = line + ", "
+        else:
+            print line;

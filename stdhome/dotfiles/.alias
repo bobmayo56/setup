@@ -1,0 +1,7 @@
+alias encrypt='openssl enc -e -a -aes-256-cbc'
+alias decrypt='openssl enc -d -a -aes-256-cbc'
+alias ll='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
+alias hi='history 50'
+alias clr='echo;echo;yes "============================= `date` =============================" | head -203;echo'

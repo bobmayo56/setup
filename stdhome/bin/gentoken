@@ -1,0 +1,28 @@
+#!/usr/bin/python
+
+import hashlib;
+import random;
+import base64;
+import commands;
+
+s=hashlib.sha1();
+s.update(str(random.random()));
+s.update(str(random.random()));
+s.update(str(random.random()));
+s.update(str(random.random()));
+s.update(str(random.random()));
+s.update(str(random.random()));
+s.update(str(random.random()));
+s.update(str(random.random()));
+token=s.digest();
+hextoken=s.hexdigest();
+b64token=base64.urlsafe_b64encode(token)[:-1];
+print "160 bits / 80 bits (URL-safe)"
+print "  hex " + hextoken + " / " + hextoken[0:20]
+print "  b64 " + b64token + " / " + b64token[0:14] 
+print "Decimal values"
+token2=''+str(random.random());
+print "  dec " + token2[2:5] + " " + token2[5:8] + " " + token2[8:]
+print "GUID:"
+token3=commands.getoutput("uuidgen")
+print "  " + token3

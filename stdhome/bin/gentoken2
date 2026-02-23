@@ -1,0 +1,17 @@
+#!/bin/bash
+
+tmp=/tmp/gentoken$$
+
+echo
+echo 'Base 64 (32 bytes, or 256 bits):'
+(openssl rand -rand /dev/random -base64 32 ; openssl rand -rand /dev/random -base64 32 ) | sed s/=$//g | sed 's/2048 semi-random bytes loaded//g'
+
+echo
+echo 'Hexadecimal (32 bytes, or 256 bits):'
+echo ' ' `openssl rand -rand /dev/random -base64 32 | openssl sha256 | sed 's/(stdin)= /  /g'`
+echo ' ' `openssl rand -rand /dev/random -base64 32 | openssl sha256 | sed 's/(stdin)= /  /g'`
+
+echo
+echo 'UUID (16 bytes, or 238 bits):'
+echo ' ' `uuidgen | tr '[A-Z]' '[a-z]'`
+echo ' ' `uuidgen | tr '[A-Z]' '[a-z]'`

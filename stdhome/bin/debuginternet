@@ -1,0 +1,44 @@
+#!/bin/bash
+
+INTERVAL=5
+
+LOCALHOST=127.0.0.1
+HOMERTR1=10.1.1.10
+HOMERTR2=10.1.2.10
+MODEM=173.228.89.142
+ISP=173.228.89.1
+#ISP=69.12.211.1
+INTERNET=206.190.36.45
+
+FLAGS='-q -n -c 1 -t 5'
+TMP=/tmp/debuginternet$$
+LOG=/tmp/debuginternet.txt
+
+do_ping() {
+    ADDR="$1"
+    OUT=`ping $FLAGS $ADDR`
+    if [ $? -eq 0 ]
+    then
+        echo -n "$ADDR"
+    else
+        echo -n "$ADDR (***FAILED***)"
+    fi
+}
+
+while [ 1 ] ; do
+    echo -n `date` " |  "
+    do_ping $LOCALHOST
+    echo -n ' > '
+    do_ping $HOMERTR1
+    echo -n ' > '
+    do_ping $HOMERTR2
+    echo -n ' > '
+    do_ping $MODEM
+    echo -n ' > '
+    do_ping $ISP
+    echo -n ' > '
+    do_ping $INTERNET
+    echo ''
+    sleep $INTERVAL
+done
+

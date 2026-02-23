@@ -1,0 +1,25 @@
+# .bash_interactive -- run on every interactive shell, even non-login ones
+
+echo 'This is ~/.bash_interactive'
+
+# Prompts
+PS1='\e[1;32m[\u@\h \W]$ \e[0m'
+PS2='> '
+
+# Eclipse needs to read $PATH, but on OSX a GUI app does not have access to it.  As a workaround,
+# open it from the command line so it inherits the shell's $PATH.
+alias runeclipse='open -a ~/Applications/Eclipse.app'
+
+# Arrayent
+export PATH=/Users/bobmayo56/proj/arrayent/apache-cassandra-3.10/bin:$PATH
+
+# aliases
+alias encrypt='openssl enc -e -a -aes-256-cbc'
+alias decrypt='openssl enc -d -a -aes-256-cbc'
+alias ll='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
+
+# functions
+lgrep () { /usr/bin/find . -name "*$@*" ; }
+rgrep () { /usr/bin/fgrep -R "$@" . ; }

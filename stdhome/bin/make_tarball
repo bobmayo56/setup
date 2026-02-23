@@ -1,0 +1,8 @@
+#!/bin/sh
+
+F_IN=$1
+F_OUT=$(basename "$F_IN").tar.gz.pgp
+ALGO=AES256
+
+tar -cvzf - ${F_IN} | gpg --output ${F_OUT} --symmetric --cipher-algo ${ALGO}
+
