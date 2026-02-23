@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# extract-archive
+
+# part of a pair: make-archive and extract-archive
+
+#!/usr/bin/env bash
+
+if [ $# -ne 1 ]; then
+    echo "Usage: extract-archive <archive.7z>"
+    echo "Example: extract-archive docs-2026.7z"
+    exit 1
+fi
+
+ARCHIVE=$1
+
+if [ ! -f "$ARCHIVE" ]; then
+    echo "Error: '$ARCHIVE' not found"
+    exit 1
+fi
+
+7zz x "$ARCHIVE"
+
+echo "Extracted: $ARCHIVE"
+

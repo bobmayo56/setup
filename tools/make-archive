@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# make-archive
+
+# part of a pair: make-archive and extract-archive 
+
+#!/usr/bin/env bash
+
+if [ $# -ne 2 ]; then
+    echo "Usage: make-archive <folder> <archive-name>"
+    echo "Example: make-archive documents docs-2026"
+    exit 1
+fi
+
+FOLDER=$1
+ARCHIVE=$2
+
+if [ ! -d "$FOLDER" ]; then
+    echo "Error: '$FOLDER' is not a directory"
+    exit 1
+fi
+
+7zz a -mhe=on -p "${ARCHIVE}.7z" "$FOLDER"
+
+echo "Created: ${ARCHIVE}.7z"
+

@@ -1,7 +1,0 @@
-#!/bin/sh
-
-F_IN=$1
-F_OUT=$(basename "$F_IN").tar.gz.pgp
-
-echo "gpg --decrypt ${F_IN} | tar -xvf -"
-
