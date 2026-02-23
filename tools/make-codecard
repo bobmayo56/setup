@@ -94,8 +94,8 @@ def make_card(rows, cols, col0_width, coln_width, charset):
                 # Top-left: random uppercase letters identify this card.
                 cell = make_cell(col0_width, UPPERCASE)
             elif r == 0:
-                # Header row: column numbers starting at 1, centered.
-                cell = str(c).center(coln_width)
+                # Header row: column letters starting at A, centered.
+                cell = UPPERCASE[c - 1].center(coln_width)
             elif c == 0:
                 # Label column: row numbers starting at 1, centered.
                 cell = str(r).center(col0_width)
