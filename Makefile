@@ -1,38 +1,19 @@
-DOTFILES_SRC := $(CURDIR)/dotfiles
-TOOLS_SRC    := $(CURDIR)/tools
+SETUP_DIR := $(CURDIR)
 
-DOTFILES := \
-	.alias \
-	.bash_interactive \
-	.bash_logout \
-	.bash_profile \
-	.bashrc \
-	.mkshrc \
-	.mongorc.js \
-	.npmrc \
-	.profile \
-	.vimrc \
-	.zlogin \
-	.zshrc
+.PHONY: laptop server docker \
+        update packages bash zsh git ssh node aws
 
-.PHONY: all install install-dotfiles install-tools
+# --- profiles ---
+laptop: ; bash $(SETUP_DIR)/profiles/laptop.sh
+server: ; bash $(SETUP_DIR)/profiles/server.sh
+docker: ; bash $(SETUP_DIR)/profiles/docker.sh
 
-all: install
-
-install: install-dotfiles install-tools
-
-install-dotfiles:
-	@echo "Installing dotfiles..."
-	@for f in $(DOTFILES); do \
-		cp $(DOTFILES_SRC)/$$f $(HOME)/$$f; \
-		echo "  Copied $$f"; \
-	done
-
-install-tools:
-	@echo "Installing tools to $(HOME)/bin..."
-	@mkdir -p $(HOME)/bin
-	@for f in $(TOOLS_SRC)/*; do \
-		cp $$f $(HOME)/bin/$$(basename $$f); \
-		chmod +x $(HOME)/bin/$$(basename $$f); \
-		echo "  Copied $$(basename $$f)"; \
-	done
+# --- individual modules ---
+update:   ; bash $(SETUP_DIR)/modules/packages-update.sh
+packages: ; bash $(SETUP_DIR)/modules/packages-common.sh
+bash:     ; bash $(SETUP_DIR)/modules/bash-setup.sh
+zsh:      ; bash $(SETUP_DIR)/modules/zsh-setup.sh
+git:      ; bash $(SETUP_DIR)/modules/git-setup.sh
+ssh:      ; bash $(SETUP_DIR)/modules/ssh-setup.sh
+node:     ; bash $(SETUP_DIR)/modules/node-install.sh
+aws:      ; bash $(SETUP_DIR)/modules/aws-install.sh
