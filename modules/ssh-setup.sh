@@ -9,7 +9,10 @@ log "ssh-setup: installing ssh config..."
 mkdir -p "$HOME/.ssh"
 chmod 700 "$HOME/.ssh"
 
-safe_symlink "$SSH_CONFIG" "$HOME/.ssh/config"
+if ! cmp -s "$SSH_CONFIG" "$HOME/.ssh/config" 2>/dev/null; then
+    cp "$SSH_CONFIG" "$HOME/.ssh/config"
+    log "  installed ssh/config"
+fi
 chmod 600 "$HOME/.ssh/config"
 
 log "ssh-setup: done"
