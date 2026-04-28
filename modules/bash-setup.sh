@@ -7,9 +7,9 @@ TOOLS_DIR="$SETUP_DIR/tools"
 
 log "bash-setup: configuring bash..."
 
-# --- Install dotfiles (skip if already identical) ---
-BASH_DOTFILES=(.alias .bash_interactive .bash_logout .bash_profile .bashrc .mkshrc .profile .vimrc)
-for f in "${BASH_DOTFILES[@]}"; do
+# --- Install our dotfiles (vendors never touch these) ---
+OWN_DOTFILES=(.alias .bash_interactive .bash_logout .mkshrc .mongorc.js .npmrc .profile .vimrc)
+for f in "${OWN_DOTFILES[@]}"; do
     src="$DOTFILES/$f"
     dst="$HOME/$f"
     [[ -f "$src" ]] || continue
@@ -20,13 +20,14 @@ for f in "${BASH_DOTFILES[@]}"; do
     log "  installed $f"
 done
 
-# --- Ensure ~/bin is on PATH ---
+# --- Inject into system-touched files (never overwrite) ---
+# Ensure login shells load .bashrc
+append_if_missing "$HOME/.bash_profile" '[[ -f ~/.bashrc ]] && source ~/.bashrc'
+
+# Wire our interactive config and personal additions into .bashrc
+append_if_missing "$HOME/.bashrc" '[[ -f ~/.bash_interactive ]] && source ~/.bash_interactive'
 append_if_missing "$HOME/.bashrc" 'export PATH="$HOME/bin:$PATH"'
-
-# --- Source ~/.secrets on every bash session (API keys, tokens) ---
 append_if_missing "$HOME/.bashrc" '[[ -f ~/.secrets ]] && source ~/.secrets'
-
-# --- Source ~/.localrc for machine-specific PATH / aliases (not in git) ---
 append_if_missing "$HOME/.bashrc" '[[ -f ~/.localrc ]] && source ~/.localrc'
 
 # --- Create ~/.secrets template if not present ---
