@@ -1,0 +1,28 @@
+#!/bin/bash
+#
+# Sync sparse cache with main store.
+#   - Files newer in cache (or missing from main) are pushed to main.
+#   - Files newer in main are pulled into cache, but only if they already exist in cache.
+#   - Files in main that are not in cache are ignored (cache is sparse).
+
+set -euo pipefail
+
+# Be verbose, one line per file.
+# Tolerate coarse mtimes on backends like S3 (timestamps may be rounded
+# to the nearest second, or stored only via metadata on upload).
+FLAGS="--verbose --modify-window 2s"
+
+CACHE="${1:?Usage: $0 <cache> <main>}"
+MAIN="${2:?Usage: $0 <cache> <main>}"
+
+
+# Pass 1: push cache to main where cache is newer or main is missing.
+echo "Pass 1: cache to main"
+rclone copy "$CACHE" "$MAIN" --update ${FLAGS}
+
+# Pass 2: pull main to cache where main is newer, restricted to files already in cache.
+echo "Pass 2: main to cache (cache refresh)"
+rclone copy "$MAIN" "$CACHE" --update ${FLAGS} \
+  --files-from-raw <(rclone lsf "$CACHE" --recursive --files-only)
+
+echo "Done."
