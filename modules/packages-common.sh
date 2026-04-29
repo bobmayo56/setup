@@ -10,21 +10,21 @@ case "$OS" in
         brew install "${PACKAGES[@]}"
         ;;
     debian)
-        sudo apt-get install -y \
+        _sudo apt-get install -y \
             git curl wget openssl \
             python3 python3-pip python3-venv \
             jq p7zip-full uuid-runtime \
             htop tree build-essential
         ;;
     rhel)
-        sudo yum install -y \
+        _sudo yum install -y \
             git curl wget openssl \
             python3 python3-pip \
             jq p7zip p7zip-plugins util-linux \
             htop tree gcc make
         ;;
     amzn)
-        sudo yum install -y \
+        _sudo yum install -y \
             git curl wget openssl \
             python3 python3-pip \
             jq p7zip p7zip-plugins util-linux \
