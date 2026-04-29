@@ -29,7 +29,6 @@ append_if_missing "$HOME/.bash_profile" '[[ -f ~/.bashrc ]] && source ~/.bashrc'
 
 # Wire our interactive config and personal additions into .bashrc
 append_if_missing "$HOME/.bashrc" '[[ -f ~/.bash_interactive ]] && source ~/.bash_interactive'
-append_if_missing "$HOME/.bashrc" 'export PATH="$HOME/bin:$PATH"'
 append_if_missing "$HOME/.bashrc" '[[ -f ~/.secrets ]] && source ~/.secrets'
 append_if_missing "$HOME/.bashrc" '[[ -f ~/.localrc ]] && source ~/.localrc'
 
@@ -56,7 +55,8 @@ fi
 if [[ ! -f "$HOME/.localrc" ]]; then
     cat > "$HOME/.localrc" <<'EOF'
 # ~/.localrc — machine-specific PATH additions and aliases (not in git)
-#
+export PATH="$HOME/bin:$PATH"
+
 # Examples:
 # export PATH="/opt/riscv/bin:$PATH"
 # export PATH="$HOME/proj/apache-cassandra-3.10/bin:$PATH"
