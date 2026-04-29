@@ -1,0 +1,5 @@
+# ~/.exports — non-sensitive environment variables, sourced by ~/.bashrc and ~/.zshrc
+#
+# export EXAMPLE_VAR="foo"
+
+export DATA_LAKE="s3://data-lake-4d8c/"

@@ -7,7 +7,7 @@ DOTFILES="$SETUP_DIR/dotfiles"
 log "bash-setup: configuring bash..."
 
 # --- Install our dotfiles (vendors never touch these) ---
-OWN_DOTFILES=(.alias .bash_interactive .bash_logout .mkshrc .mongorc.js .npmrc .profile)
+OWN_DOTFILES=(.alias .bash_interactive .bash_logout .exports .mkshrc .mongorc.js .npmrc .profile)
 for f in "${OWN_DOTFILES[@]}"; do
     src="$DOTFILES/$f"
     dst="$HOME/$f"
@@ -29,6 +29,7 @@ append_if_missing "$HOME/.bash_profile" '[[ -f ~/.bashrc ]] && source ~/.bashrc'
 
 # Wire our interactive config and personal additions into .bashrc
 append_if_missing "$HOME/.bashrc" '[[ -f ~/.bash_interactive ]] && source ~/.bash_interactive'
+append_if_missing "$HOME/.bashrc" '[[ -f ~/.exports ]] && source ~/.exports'
 append_if_missing "$HOME/.bashrc" '[[ -f ~/.secrets ]] && source ~/.secrets'
 append_if_missing "$HOME/.bashrc" '[[ -f ~/.localrc ]] && source ~/.localrc'
 
