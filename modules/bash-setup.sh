@@ -7,7 +7,7 @@ DOTFILES="$SETUP_DIR/dotfiles"
 log "bash-setup: configuring bash..."
 
 # --- Install our dotfiles (vendors never touch these) ---
-OWN_DOTFILES=(.alias .bash_interactive .bash_logout .mkshrc .mongorc.js .npmrc .profile .vimrc)
+OWN_DOTFILES=(.alias .bash_interactive .bash_logout .mkshrc .mongorc.js .npmrc .profile)
 for f in "${OWN_DOTFILES[@]}"; do
     src="$DOTFILES/$f"
     dst="$HOME/$f"
@@ -64,14 +64,5 @@ export PATH="$HOME/bin:$PATH"
 EOF
     log "  created ~/.localrc template"
 fi
-
-# --- Install Vundle and vim plugins ---
-if [[ ! -d "$HOME/.vim/bundle/Vundle.vim" ]]; then
-    git clone https://github.com/VundleVim/Vundle.vim.git \
-        "$HOME/.vim/bundle/Vundle.vim"
-    log "  installed Vundle"
-fi
-vim +PluginInstall +qall >/dev/null 2>&1
-log "  vim plugins up to date"
 
 log "bash-setup: done"

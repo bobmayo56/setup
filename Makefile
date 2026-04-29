@@ -1,7 +1,7 @@
 SETUP_DIR := $(CURDIR)
 
 .PHONY: laptop server docker \
-        update packages tools bash zsh git ssh node aws
+        update packages tools bash zsh vim git ssh node aws
 
 # --- profiles ---
 laptop: ; bash $(SETUP_DIR)/profiles/laptop.sh
@@ -14,6 +14,7 @@ packages: ; bash $(SETUP_DIR)/modules/packages-common.sh
 tools:    ; bash $(SETUP_DIR)/modules/tools-install.sh
 bash:     ; bash $(SETUP_DIR)/modules/bash-setup.sh
 zsh:      ; bash $(SETUP_DIR)/modules/zsh-setup.sh
+vim:      ; bash $(SETUP_DIR)/modules/vim-setup.sh
 git:      ; bash $(SETUP_DIR)/modules/git-setup.sh
 ssh:      ; bash $(SETUP_DIR)/modules/ssh-setup.sh
 node:     ; bash $(SETUP_DIR)/modules/node-install.sh
