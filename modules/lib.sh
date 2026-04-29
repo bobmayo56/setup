@@ -29,12 +29,14 @@ OS="$(detect_os)"
 export OS
 
 # --- Package manager dispatch ---
+_sudo() { if [[ "$(id -u)" == "0" ]]; then "$@"; else sudo "$@"; fi; }
+
 pkg_install() {
     case "$OS" in
         macos)        brew install "$@" ;;
-        debian)       sudo apt-get install -y "$@" ;;
-        rhel)         sudo yum install -y "$@" ;;
-        amzn)         sudo yum install -y "$@" ;;
+        debian)       _sudo apt-get install -y "$@" ;;
+        rhel)         _sudo yum install -y "$@" ;;
+        amzn)         _sudo yum install -y "$@" ;;
         alpine)       apk add --no-cache "$@" ;;
         *) warn "unknown OS ($OS), skipping: pkg_install $*" ;;
     esac
@@ -43,9 +45,9 @@ pkg_install() {
 pkg_update() {
     case "$OS" in
         macos)   brew update ;;
-        debian)  sudo apt-get update ;;
-        rhel)    sudo yum update -y ;;
-        amzn)    sudo yum update -y ;;
+        debian)  _sudo apt-get update ;;
+        rhel)    _sudo yum update -y ;;
+        amzn)    _sudo yum update -y ;;
         alpine)  apk update ;;
         *) warn "unknown OS ($OS), skipping pkg_update" ;;
     esac
