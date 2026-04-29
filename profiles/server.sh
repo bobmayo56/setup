@@ -7,6 +7,7 @@ log "=== profile: server (OS=$OS) ==="
 
 source "$MODULES/packages-update.sh"
 source "$MODULES/packages-common.sh"
+source "$MODULES/tools-install.sh"
 source "$MODULES/bash-setup.sh"
 source "$MODULES/git-setup.sh"
 source "$MODULES/ssh-setup.sh"

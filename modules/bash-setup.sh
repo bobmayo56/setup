@@ -3,7 +3,6 @@ set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 
 DOTFILES="$SETUP_DIR/dotfiles"
-TOOLS_DIR="$SETUP_DIR/tools"
 
 log "bash-setup: configuring bash..."
 
@@ -61,19 +60,5 @@ if [[ ! -f "$HOME/.localrc" ]]; then
 EOF
     log "  created ~/.localrc template"
 fi
-
-# --- Install personal tools to ~/bin ---
-mkdir -p "$HOME/bin"
-for tool in "$TOOLS_DIR"/*; do
-    src="$tool"
-    dst="$HOME/bin/$(basename "$tool")"
-    [[ -f "$src" ]] || continue
-    if cmp -s "$src" "$dst" 2>/dev/null; then
-        continue
-    fi
-    cp "$src" "$dst"
-    chmod +x "$dst"
-    log "  installed tool: $(basename "$tool")"
-done
 
 log "bash-setup: done"

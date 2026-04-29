@@ -6,6 +6,7 @@ source "$MODULES/lib.sh"
 log "=== profile: docker (OS=$OS) ==="
 
 source "$MODULES/packages-common.sh"
+source "$MODULES/tools-install.sh"
 source "$MODULES/bash-setup.sh"
 
 log "=== docker setup complete ==="
