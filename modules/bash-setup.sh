@@ -65,4 +65,13 @@ EOF
     log "  created ~/.localrc template"
 fi
 
+# --- Install Vundle and vim plugins ---
+if [[ ! -d "$HOME/.vim/bundle/Vundle.vim" ]]; then
+    git clone https://github.com/VundleVim/Vundle.vim.git \
+        "$HOME/.vim/bundle/Vundle.vim"
+    log "  installed Vundle"
+fi
+vim +PluginInstall +qall >/dev/null 2>&1
+log "  vim plugins up to date"
+
 log "bash-setup: done"
