@@ -13,7 +13,7 @@ case "$OS" in
         _sudo apt-get install -y \
             git curl wget openssl \
             python3 python3-pip python3-venv \
-            jq p7zip-full uuid-runtime \
+            jq 7zip uuid-runtime \
             htop tree build-essential
         ;;
     rhel)
