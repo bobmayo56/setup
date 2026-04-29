@@ -12,6 +12,10 @@ for f in "${OWN_DOTFILES[@]}"; do
     src="$DOTFILES/$f"
     dst="$HOME/$f"
     [[ -f "$src" ]] || continue
+    if [[ -f "$dst" && ! -f "${dst}.orig" ]]; then
+        cp "$dst" "${dst}.orig"
+        log "  backed up $f -> $f.orig"
+    fi
     if cmp -s "$src" "$dst" 2>/dev/null; then
         continue
     fi
