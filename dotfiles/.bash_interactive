@@ -1,6 +1,6 @@
 # .bash_interactive -- run on every interactive shell, even non-login ones
 
-PS1='\e[1;32m[\u@\h \W]$ \e[0m'
+PS1='\e[1;32m[\u@\h \W]\$\e[0m '
 PS2='> '
 
 source ~/.alias
