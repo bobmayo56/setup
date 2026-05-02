@@ -3,4 +3,4 @@
 # export EXAMPLE_VAR="foo"
 
 export DATA_LAKE="s3://data-lake-4d8c"
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
