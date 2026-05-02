@@ -1,21 +1,11 @@
 SETUP_DIR := $(CURDIR)
 
-.PHONY: laptop server docker \
-        update packages tools bash zsh vim git ssh node aws
+.PHONY: home_dir install-node install-aws install-packages update
 
-# --- profiles ---
-laptop: ; bash $(SETUP_DIR)/profiles/laptop.sh
-server: ; bash $(SETUP_DIR)/profiles/server.sh
-docker: ; bash $(SETUP_DIR)/profiles/docker.sh
+home_dir:
+	sh $(SETUP_DIR)/provision/install-home.sh
 
-# --- individual modules ---
-update:   ; bash $(SETUP_DIR)/modules/packages-update.sh
-packages: ; bash $(SETUP_DIR)/modules/packages-common.sh
-tools:    ; bash $(SETUP_DIR)/modules/tools-install.sh
-bash:     ; bash $(SETUP_DIR)/modules/bash-setup.sh
-zsh:      ; bash $(SETUP_DIR)/modules/zsh-setup.sh
-vim:      ; bash $(SETUP_DIR)/modules/vim-setup.sh
-git:      ; bash $(SETUP_DIR)/modules/git-setup.sh
-ssh:      ; bash $(SETUP_DIR)/modules/ssh-setup.sh
-node:     ; bash $(SETUP_DIR)/modules/node-install.sh
-aws:      ; bash $(SETUP_DIR)/modules/aws-install.sh
+install-node:     ; bash $(SETUP_DIR)/modules/node-install.sh
+install-aws:      ; bash $(SETUP_DIR)/modules/aws-install.sh
+install-packages: ; bash $(SETUP_DIR)/modules/packages-common.sh
+update:           ; bash $(SETUP_DIR)/modules/packages-update.sh

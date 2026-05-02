@@ -9,9 +9,7 @@ Personal account setup for Bob Mayo. Stores dotfiles, custom CLI tools, and prov
 ## Installing
 
 ```bash
-make install          # copies dotfiles to $HOME and tools to $HOME/bin
-make install-dotfiles # dotfiles only
-make install-tools    # tools only (also chmod +x each)
+make home_dir   # copies home_template/ to $HOME; backs up existing files as .orig (once)
 ```
 
 Bootstrap a fresh machine (installs git if missing, then clones the repo):
@@ -20,13 +18,23 @@ Bootstrap a fresh machine (installs git if missing, then clones the repo):
 bash provision/bootstrap.sh
 ```
 
-Other provisioners are standalone scripts: `provision/install-aws.sh`, `provision/install-node.sh`.
+Individual package/tool installers:
+
+```bash
+make install-node
+make install-aws
+make install-packages
+make update
+```
 
 ## Structure
 
-- **`dotfiles/`** — shell configs (`.bashrc`, `.zshrc`, `.alias`, `.bash_interactive`, `.vimrc`, `.npmrc`, etc.). The `2026-03-03_from_macbook/` subdirectory is a timestamped snapshot from a Mac and is not installed by `make`.
-- **`tools/`** — custom CLI scripts copied verbatim to `$HOME/bin`. Each is standalone.
-- **`ssh/config`** — SSH client shortcuts for personal hosts (apibobmayo, loghost, riscv, snooper, dc7900).
+- **`home_template/`** — mirrors `$HOME` exactly. Drop a file here at the right relative path and `make home_dir` will install it.
+  - **`home_template/bin/`** — custom CLI scripts installed to `$HOME/bin`. Each is standalone.
+  - **`home_template/.ssh/config`** — SSH client shortcuts for personal hosts (apibobmayo, loghost, riscv, snooper, dc7900).
+- **`provision/`** — `bootstrap.sh`, `install-home.sh`, `install-aws.sh`, `install-node.sh`.
+- **`modules/`** — individual setup scripts invoked by `make` targets.
+- **`archive/`** — historical snapshots not installed by `make` (e.g. `2026-03-03_from_macbook/`).
 - **`config/qemu/`** — QEMU VM config (`target-x86_64.conf`).
 
 ## Tools overview
@@ -46,7 +54,7 @@ Other provisioners are standalone scripts: `provision/install-aws.sh`, `provisio
 
 ## Conventions
 
-- Shell tools use `#!/usr/bin/env bash`.
+- Shell tools use `#!/bin/sh` (POSIX-compatible, works with bash and zsh). Exceptions: `make-archive` and `extract-archive` use `#!/usr/bin/env bash` for `read -s`; `rcacheupdate` uses `#!/bin/bash` for process substitution.
 - Python tools: newer ones use Python 3 (`#!/usr/bin/env python3`); older ones (`gencodexcard`, `gentoken`, `gridtoken`) are Python 2 and use the `commands` module — leave them as-is unless actively updating.
 - `make-archive` / `extract-archive` respect the `SEVENZIP_PROGRAM` env var to switch between `7zz`, `7z`, etc.
-- Dotfiles in `dotfiles/` must match the filenames listed in the `Makefile`'s `DOTFILES` variable to be installed by `make install-dotfiles`.
+- `make home_dir` backs up any pre-existing `$HOME/.foo` to `$HOME/.foo.orig` **once** (never overwrites an existing `.orig`).

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Identify the system type so scripts can adjust
 

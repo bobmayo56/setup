@@ -1,2 +1,3 @@
+#!/bin/sh
 git config --global user.name "Robert Mayo"
 git config --global user.email "479789+bobmayo56@users.noreply.github.com"

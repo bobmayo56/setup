@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 HOST=`hostname`
 METRICS_KEY='e67eda22904f6ea8deeceafdad8d2288bc48674fbde8d5ed35667365b3b38346'
@@ -12,7 +12,7 @@ time_url() {
     URL="$1"
     TM=`curl -s -m 10 -w '%{time_total}' ${URL} -o /dev/null`
     CODE=$?
-    if [[ $? -eq 0 ]] 
+    if [ $? -eq 0 ]
     then
         echo $TM
     else
@@ -26,7 +26,7 @@ post_value() {
     SOURCE="$3"
     VAL="$4"
     echo post_value ${METRIC} ${TIME} "${HOST}" "$VAL" >> $LOG
-    if [[ "$VAL" != "" ]] 
+    if [ -n "$VAL" ]
     then
         JSON="{\"gauges\":{\"${METRIC}\":{\"measure_time\":${TIME},\"value\":${VAL},\"source\":\"${HOST}\"}}}"
         echo "$JSON" >> $LOG
@@ -46,18 +46,18 @@ test_url() {
 echo Internet Metrics script started on $H at `date` >> $LOG
 
 NEXT=`date +%s`
-let NEXT=$NEXT/60
-let NEXT="$NEXT*60+24"
+NEXT=$((NEXT/60))
+NEXT=$((NEXT*60+24))
 
-while [[ 1 ]]
+while :
 do
     test_url $NEXT bob_homenetwork_yahoo_com 'http://www.yahoo.com'
     test_url $NEXT bob_homenetwork_google_com 'http://www.google.com'
     test_url $NEXT bob_homenetwork_wisc_edu 'http://www.wisc.edu'
     test_url $NEXT bob_homenetwork_nytimes_com 'http://www.nytimes.com'
-    let NOW=`date +%s`
-    let NEXT=$NEXT+60
-    let WAIT=$NEXT-$NOW
+    NOW=`date +%s`
+    NEXT=$((NEXT+60))
+    WAIT=$((NEXT-NOW))
     sleep $WAIT
 done
 
