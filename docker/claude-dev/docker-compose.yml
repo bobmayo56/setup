@@ -1,0 +1,23 @@
+services:
+  dev:
+    hostname: claude-dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ~/github:/workspace
+      - ~/.gitconfig:/root/.gitconfig:ro
+      - ~/.ssh:/root/.ssh:ro
+      - ~/.aws:/root/.aws:ro
+      - ~/.config/rclone:/root/.config/rclone:ro
+      - ~/.claude:/root/.claude
+    environment:
+      - CLAUDE_CONFIG_DIR=/root/.claude
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+      - "3002:3002"
+      - "3003:3003"
+      - "3004:3004"
+    stdin_open: true
+    tty: true
