@@ -8,7 +8,7 @@ TEMPLATE="$SETUP_DIR/home_template"
 find "$TEMPLATE" -type f | while IFS= read -r src; do
     rel="${src#$TEMPLATE/}"
     dest="$HOME/$rel"
-    if [ -f "$dest" ] && [ ! -f "$dest.orig" ]; then
+    if [ -f "$dest" ] && [ ! -f "$dest.orig" ] && [ "${rel#bin/}" = "$rel" ]; then
         cp "$dest" "$dest.orig"
         echo "Backed up: ~/$rel -> ~/$rel.orig"
     fi
