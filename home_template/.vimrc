@@ -3,6 +3,7 @@ set ic
 set tabstop=2
 set shiftwidth=2
 set expandtab
+set encoding=utf-8
 syntax on
 highlight Search cterm=NONE ctermfg=black ctermbg=yellow
 colorscheme default
