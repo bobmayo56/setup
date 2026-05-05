@@ -18,6 +18,10 @@ RUN apt-get update && apt-get install -y \
     ripgrep \
     fzf \
     unzip \
+    netcdf-bin \
+    ncview \
+    libnetcdf-dev \
+    libhdf5-dev \
     && rm -rf /var/lib/apt/lists/*
 
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
@@ -32,13 +36,26 @@ RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH="/root/.local/bin:$PATH"
 
 # --- AWS CLI ---
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o /tmp/awscliv2.zip \
+RUN ARCH=$(uname -m) && \
+    case "$ARCH" in \
+        aarch64) AWS_ARCH="aarch64" ;; \
+        *) AWS_ARCH="x86_64" ;; \
+    esac && \
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-${AWS_ARCH}.zip" -o /tmp/awscliv2.zip \
     && unzip /tmp/awscliv2.zip -d /tmp \
     && /tmp/aws/install \
     && rm -rf /tmp/awscliv2.zip /tmp/aws
 
 # --- rclone ---
 RUN curl https://rclone.org/install.sh | bash
+
+# --- Dotfiles ---
+# Docker caches this layer, so if you push dotfile updates, a plain docker compose build
+# won't pick them up. You'd need docker compose build --no-cache to force a fresh clone.
+
+RUN git clone https://github.com/bobmayo56/setup.git /bobmayo56_setup \
+    && cd /bobmayo56_setup \
+    && make home_dir
 
 # --- Claude Code ---
 RUN npm install -g @anthropic-ai/claude-code

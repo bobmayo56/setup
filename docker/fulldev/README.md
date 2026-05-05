@@ -24,14 +24,9 @@ docker compose run --rm dev bash
 claude login
 ```
 
-## Per-project Python venv
+## Python packages
 
-```bash
-cd /workspace/myproject
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
+Use uv
 
 ## Ports
 
