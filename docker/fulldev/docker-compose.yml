@@ -1,5 +1,6 @@
 services:
   dev:
+    container_name: fulldev
     hostname: fulldev
     build:
       context: .
@@ -18,6 +19,9 @@ services:
       - "3001:3001"
       - "3002:3002"
       - "3003:3003"
-      - "3004:3004"
+      - "8080:8080"
+      - "8088:8088"
+      - "8089:8089"
+      - "8090:8090"
     stdin_open: true
     tty: true

@@ -4,9 +4,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # --- Base tools ---
 RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-venv \
-    python3-dev \
+    python3.12 \
+    python3.12-venv \
+    python3.12-dev \
     python3-pip \
     libgdal-dev \
     libeccodes-dev \
