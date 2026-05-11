@@ -1,0 +1,29 @@
+#!/bin/sh
+set -eu
+
+printf 'This may take 10-60 seconds...'
+
+N="$(getconf _NPROCESSORS_ONLN 2>/dev/null || sysctl -n hw.ncpu)"
+SIZE="${1:-2G}"
+
+cpu="$(sysbench cpu --threads="$N" run | awk '/events per second:/ {print $4}')"
+
+mem="$(sysbench memory run |
+  awk '/transferred/ {
+    for (i=1;i<=NF;i++) if ($i ~ /MiB\/sec/) {
+      gsub(/[()]/, "", $(i-1)); print $(i-1)
+    }
+  }')"
+
+sysbench fileio --file-total-size="$SIZE" prepare >/dev/null
+
+disk="$(sysbench fileio --file-total-size="$SIZE" --file-test-mode=rndrw run |
+  awk '/read, MiB\/s:/ {r=$3}
+       /written, MiB\/s:/ {w=$3}
+       END {printf "%.2f", r+w}')"
+
+sysbench fileio cleanup >/dev/null
+
+printf 'CPU:    %s events/sec\n' "$cpu"
+printf 'Memory: %s MiB/sec\n' "$mem"
+printf 'Disk:   %s MiB/sec random mixed read/write\n' "$disk"
