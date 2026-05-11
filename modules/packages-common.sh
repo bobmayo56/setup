@@ -12,6 +12,7 @@ case "$OS" in
     debian)
         _sudo apt-get install -y \
             git curl wget openssl \
+            lsof psmisc \
             python3 python3-pip python3-venv \
             jq 7zip uuid-runtime \
             htop tree build-essential \
@@ -20,6 +21,7 @@ case "$OS" in
     rhel)
         _sudo yum install -y \
             git curl wget openssl \
+            lsof psmisc \
             python3 python3-pip \
             jq p7zip p7zip-plugins util-linux \
             htop tree gcc make \
@@ -28,6 +30,7 @@ case "$OS" in
     amzn)
         _sudo yum install -y \
             git curl wget openssl \
+            lsof psmisc \
             python3 python3-pip \
             jq p7zip p7zip-plugins util-linux \
             htop tree \
@@ -36,6 +39,7 @@ case "$OS" in
     alpine)
         apk add --no-cache \
             git curl wget openssl \
+            lsof psmisc \
             python3 py3-pip \
             jq p7zip util-linux \
             htop tree \
