@@ -6,4 +6,4 @@
 
 printf '\007============================= ding-dong, doorbell script was run ============================='
 sleep 0.1
-printf '\007'
+printf '\007\n'
