@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-printf 'This may take 10-60 seconds...'
+printf 'This may take 10-60 seconds...\n'
 
 N="$(getconf _NPROCESSORS_ONLN 2>/dev/null || sysctl -n hw.ncpu)"
 SIZE="${1:-2G}"
