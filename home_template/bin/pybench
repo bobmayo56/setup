@@ -1,14 +1,13 @@
+
 #!/bin/sh
 set -eu
 
 PY="${PYTHON:-python3}"
 N="${1:-100000000}"
+TMP="${TMPDIR:-/tmp}/pybench_$$.py"
 
-"$PY" - "$N" <<'PY'
+cat > "$TMP" <<'PY'
 import os, sys, time, multiprocessing as mp
-
-n = int(sys.argv[1])
-workers = os.cpu_count() or 1
 
 def work(n):
     s = 0
@@ -16,21 +15,30 @@ def work(n):
         s += (i * i) % 97
     return s
 
-t = time.perf_counter()
-work(n)
-single = time.perf_counter() - t
+def main():
+    n = int(sys.argv[1])
+    workers = os.cpu_count() or 1
 
-base = n // workers
-rem = n % workers
-chunks = [base + (1 if i < rem else 0) for i in range(workers)]
+    t = time.perf_counter()
+    work(n)
+    single = time.perf_counter() - t
 
-t = time.perf_counter()
-with mp.Pool(workers) as p:
-    p.map(work, chunks)
-multi = time.perf_counter() - t
+    base = n // workers
+    rem = n % workers
+    chunks = [base + (1 if i < rem else 0) for i in range(workers)]
 
-print(f"Python integer loop single-core: {single:.2f} sec")
-print(f"Python integer loop multi-core:  {multi:.2f} sec using {workers} workers")
-print(f"Speedup:            {single / multi:.2f}x")
+    t = time.perf_counter()
+    with mp.Pool(workers) as p:
+        p.map(work, chunks)
+    multi = time.perf_counter() - t
+
+    print(f"Python single-core: {single:.2f} sec")
+    print(f"Python multi-core:  {multi:.2f} sec using {workers} workers")
+    print(f"Speedup:            {single / multi:.2f}x")
+
+if __name__ == "__main__":
+    main()
 PY
 
+"$PY" "$TMP" "$N"
+rm -f "$TMP"
