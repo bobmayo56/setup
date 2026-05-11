@@ -1,5 +1,9 @@
 #!/bin/sh
 
-echo "\007============================= ding-dong, doorbell script was run ============================="
+# echo -n "\007============================= ding-dong, doorbell script was run ============================="
+# sleep 0.1
+# echo "\007"
+
+printf '\007============================= ding-dong, doorbell script was run ============================='
 sleep 0.1
-echo -n "\007"
+printf '\007'
