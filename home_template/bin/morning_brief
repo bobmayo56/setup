@@ -3,9 +3,18 @@
 PROMPT="
 Collect data that I request, below, and combine it into a morning brief formatted as html.
 
-Print the brief to standard out in html. Use classy, compact, and simple formatting designed for easy and quick reading. 
-Use black text, background color #EBEBE6, and jewel tones as accents. 
+Print the brief to standard out in html. Use the style below.
 Hyperlink article titles and other information on the web that you refer to.
+
+Style: Editorial briefing / newspaper aesthetic. Georgia serif body text, #F5F5F0 warm off-white background, #111 text, max-width 780px, padding 28px 36px, box-sizing: border-box, no margins collapsed weirdly.
+
+Header: Bold uppercase title in #1B3A6B, 22px, letter-spacing 0.04em. 3px solid #1B3A6B bottom border. Small uppercase muted dateline below in #555, 12px, letter-spacing 0.08em.
+
+Section labels: Colored pill badges — inline-block, 11px, uppercase, letter-spacing 0.12em, bold, 2px border-radius, 3px 8px padding. Assign a distinct background color per section (dark green, burgundy, purple, slate, etc.) with #fff text. No generic gray for all sections.
+
+Tables: Full-width, border-collapse: collapse. Three-column rows: a small right-aligned muted number column (12px, #aaa, width ~20px), a bold linked title column (#111, no underline at rest, underline on hover), and an italic muted summary column (13.5px, #444). Rows separated by 1px solid #d0d0ca; no border on the last row.
+
+General: No shadows. No gradients. No rounded corners on containers. Sparse vertical rhythm with margin-bottom: 24px between sections. Print-like and editorial throughout.
 
 Respond with raw HTML only.
 Do not output markdown, code fences, or explanations. Just the HTML document starting with <!DOCTYPE html>.
@@ -14,14 +23,16 @@ The first line of your output must be <!DOCTYPE html> .
 The last line of your output must be </html> .
 Everything in between those must be valid html.
 
+Use web search for articles from Canary Media and NPR, as those sites often will not allow direct access.
+
 Requested data:
-- top 3 articles from https://www.canarymedia.com/, one summary per article, of 15 words or less, per article.
-- top 3 articles from https://www.npr.com/, one summary, of 15 words or less, per article.
-- An estimate, expressed as a percentage, and a discussion of length 60 to 80 words about the probability of severe storms over North Dakota in the next 7 days, in the area between Bismark and Dickinson. Ignore all risks not directly associated with severe storms, such as fire and wind. To make your estimate, review https://www.spc.noaa.gov/products/exper/day4-8/, https://www.spc.noaa.gov/products/outlook/day3otlk.html, https://www.spc.noaa.gov/products/outlook/day2otlk.html, https://www.spc.noaa.gov/products/outlook/day1otlk.html, https://forecast.weather.gov/showsigwx.php?warnzone=NDZ033&warncounty=NDC089&firewxzone=NDZ033&local_place1=3+Miles+ENE+Dickinson+Theodore+Roosevelt+Regional+Airport+ND&product1=Hazardous+Weather+Outlook, and https://forecast.weather.gov/showsigwx.php?warnzone=NDZ035&warncounty=NDC015&firewxzone=NDZ035&local_place1=Bismarck%20ND&product1=Hazardous+Weather+Outlook&lat=46.8083&lon=-100.7837 . Use your judgement to create the requested estimate and discussion.
+- top 3 articles from Canary Media (https://www.canarymedia.com/), one summary per article, of 15 words or less, per article.
+- top 3 articles from NPR (https://www.npr.org/), one summary, of 15 words or less, per article.
+- An estimate, expressed as a percentage, and a discussion of length 50 to 70 words about the probability of severe storms over North Dakota in the next 7 days, in the area between Bismark and Dickinson. Ignore all risks not directly associated with severe storms, such as fire and wind. To make your estimate, review https://www.spc.noaa.gov/products/exper/day4-8/, https://www.spc.noaa.gov/products/outlook/day3otlk.html, https://www.spc.noaa.gov/products/outlook/day2otlk.html, https://www.spc.noaa.gov/products/outlook/day1otlk.html, https://forecast.weather.gov/showsigwx.php?warnzone=NDZ033&warncounty=NDC089&firewxzone=NDZ033&local_place1=3+Miles+ENE+Dickinson+Theodore+Roosevelt+Regional+Airport+ND&product1=Hazardous+Weather+Outlook, and https://forecast.weather.gov/showsigwx.php?warnzone=NDZ035&warncounty=NDC015&firewxzone=NDZ035&local_place1=Bismarck%20ND&product1=Hazardous+Weather+Outlook&lat=46.8083&lon=-100.7837 . Use your judgement to create the requested estimate and discussion.
 
 If you encounter problems, try web search or other work arounds.
 
-If you report both content from articles and information on your own activites, put the content first and the information on your activities at the very end.
+If you report both content from articles and information on your own activites, put the content first and the information on your activities at the very end in a PREPARATION NOTES section.
 
 This is an automated script and you should not ask questions because I will not be able to answer them.
 "
