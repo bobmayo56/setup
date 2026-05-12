@@ -1,0 +1,22 @@
+#!/bin/sh
+
+PROMPT="
+Collect data that I request, below, and combine it into a morning brief.
+
+Print the brief to standard out using simple html -- paragraphs, lists, bold and italic fonts, headings. 
+Respond with raw HTML only. No markdown, no code fences, no explanation. Just the HTML document starting with <!DOCTYPE html>.
+
+Do not narrate or explain what you are doing. Output only the HTML, nothing else.
+
+Requested data:
+- top 5 articles from https://www.canarymedia.com/, one summary, of 15 words or less, per article.
+claude
+
+If you encounter problems, try web search or other work arounds.
+
+If you report both content from articles and information on your own activites, put the content first and the information on your activities at the very end.
+
+This is an automated script and you should not ask questions because I will not be able to answer them.
+"
+
+claude --allowedTools WebFetch,WebSearch -p "$PROMPT"
