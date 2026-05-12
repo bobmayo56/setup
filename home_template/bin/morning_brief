@@ -1,16 +1,23 @@
 #!/bin/sh
 
 PROMPT="
-Collect data that I request, below, and combine it into a morning brief.
+Collect data that I request, below, and combine it into a morning brief formatted as html.
 
-Print the brief to standard out using simple html -- paragraphs, lists, bold and italic fonts, headings. 
-Respond with raw HTML only. No markdown, no code fences, no explanation. Just the HTML document starting with <!DOCTYPE html>.
+Print the brief to standard out in html. Use classy, compact, and simple formatting designed for easy and quick reading. 
+Use black text, background color #EBEBE6, and jewel tones as accents. 
+Hyperlink article titles and other information on the web that you refer to.
 
-Do not narrate or explain what you are doing. Output only the HTML, nothing else.
+Respond with raw HTML only.
+Do not output markdown, code fences, or explanations. Just the HTML document starting with <!DOCTYPE html>.
+Do not narrate or explain what you are doing.
+The first line of your output must be <!DOCTYPE html> .
+The last line of your output must be </html> .
+Everything in between those must be valid html.
 
 Requested data:
-- top 5 articles from https://www.canarymedia.com/, one summary, of 15 words or less, per article.
-claude
+- top 3 articles from https://www.canarymedia.com/, one summary per article, of 15 words or less, per article.
+- top 3 articles from https://www.npr.com/, one summary, of 15 words or less, per article.
+- An estimate, expressed as a percentage, and a discussion of length 60 to 80 words about the probability of severe storms over North Dakota in the next 7 days, in the area between Bismark and Dickinson. Ignore all risks not directly associated with severe storms, such as fire and wind. To make your estimate, review https://www.spc.noaa.gov/products/exper/day4-8/, https://www.spc.noaa.gov/products/outlook/day3otlk.html, https://www.spc.noaa.gov/products/outlook/day2otlk.html, https://www.spc.noaa.gov/products/outlook/day1otlk.html, https://forecast.weather.gov/showsigwx.php?warnzone=NDZ033&warncounty=NDC089&firewxzone=NDZ033&local_place1=3+Miles+ENE+Dickinson+Theodore+Roosevelt+Regional+Airport+ND&product1=Hazardous+Weather+Outlook, and https://forecast.weather.gov/showsigwx.php?warnzone=NDZ035&warncounty=NDC015&firewxzone=NDZ035&local_place1=Bismarck%20ND&product1=Hazardous+Weather+Outlook&lat=46.8083&lon=-100.7837 . Use your judgement to create the requested estimate and discussion.
 
 If you encounter problems, try web search or other work arounds.
 
@@ -19,4 +26,4 @@ If you report both content from articles and information on your own activites, 
 This is an automated script and you should not ask questions because I will not be able to answer them.
 "
 
-claude --allowedTools WebFetch,WebSearch -p "$PROMPT"
+/home/ubuntu/.nvm/versions/node/v24.15.0/bin/claude --allowedTools WebFetch,WebSearch -p "$PROMPT" | sed -n '/<\!DOCTYPE/,$ p'
